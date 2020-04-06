@@ -5,7 +5,7 @@ from PIL import ImageGrab
 import tkinter.messagebox as tkMessageBox
 
 
-WIDTH, HEIGHT = 500, 400
+WIDTH, HEIGHT = 300, 200
 IMG_FILENAME = 'my_drawing.png'
 
 root = tk.Tk()
@@ -14,11 +14,17 @@ canvas = tk.Canvas(root, width=WIDTH, height=HEIGHT,
 screen = turtle.TurtleScreen(canvas)
 
 t = turtle.RawTurtle(screen.getcanvas())
-t.speed(-1)
+
+def init_turtle():
+    t.speed(-1)
+    t.penup()
+    t.goto(0,80)
+    t.pendown()
+    t.pensize(10)
 
 def clear_board():
     t.reset()
-    t.speed(-1)
+    init_turtle()
     
 def clear_click(event):
     clear_board()
@@ -40,11 +46,12 @@ def save_file(root, canvas, filename):
     """ Convert the Canvas widget into a bitmapped image. """
     # Get image of Canvas and convert it to bitmapped image.
     img = getter(canvas).convert('L').convert('1')
-    img.save(IMG_FILENAME)  # Save image file.
+    img.save(IMG_FILENAME)
 
     tkMessageBox.showinfo("Info", "Image saved as %r" % filename, parent=root)
 
-def main():  # This will run the program
+def main(): 
+    init_turtle() 
     canvas.pack()
 
     btn_frame = tk.Frame(root)
